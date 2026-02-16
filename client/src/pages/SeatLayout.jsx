@@ -7,7 +7,7 @@ import { ArrowRightIcon, ClockIcon } from "lucide-react";
 import isoTimeFormat from "../lib/isoTimeFormat";
 import BlurCircle from "../components/BlurCircle";
 import toast from "react-hot-toast";
-// import { useAppContext } from "../context/AppContext";
+import { useAppContext } from "../context/AppContext";
 const SeatLayout = () => {
   const groupRows = [
     ["A", "B"],
@@ -25,17 +25,18 @@ const SeatLayout = () => {
 
   const navigate = useNavigate();
 
-  // const { axios, getToken, user } = useAppContext();
+  const { axios, getToken, user } = useAppContext();
 
   const getShow = async () => {
-    const show = dummyShowsData.find((show) => show._id === id);
-    if(!show) return;
-    setShow({
-      movie: show,
-      dateTime: dummyDateTimeData
-    });
-    // setOccupiedSeats(show.occupiedSeats);
-  }
+    try {
+      const { data } = await axios.get(`/api/show/${id}`);
+      if (data.success) {
+        setShow(data);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const handleSeatClick = (seatId) => {
     if (!selectedTime) {
@@ -75,11 +76,57 @@ const SeatLayout = () => {
     </div>
   );
 
-  
+ 
+  const getOccupiedSeats = async () => {
+    try {
+      const { data } = await axios.get(
+        `/api/booking/seats/${selectedTime.showId}`
+      );
+      if (data.success) {
+        setOccupiedSeats(data.occupiedSeats);
+      } else {
+        toast.error(data.message);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }; 
 
+
+  const bookTickets = async () => {
+    try {
+      if (!user) return toast.error("Please login to proceed");
+
+      if (!selectedTime || !selectedSeats.length)
+        return toast.error("Please select a time and seats");
+
+      const { data } = await axios.post(
+        "/api/booking/create",
+        { showId: selectedTime.showId, selectedSeats },
+        { headers: { Authorization: `Bearer ${await getToken()}` } }
+      );
+
+      if (data.success) {
+        // toast.success(data.message);
+        // navigate("/my-bookings");
+        window.location.href = data.url;
+      } else {
+        toast.error(data.message);
+      }
+    } catch (error) {
+      toast.error(error.message);
+    }
+  };
+  
   useEffect(() => {
     getShow();
   }, []);
+
+  useEffect(() => {
+    if (selectedTime) {
+      getOccupiedSeats();
+    }
+  }, [selectedTime]);
 
   return show ? (
     <div className="flex flex-col md:flex-row px-6 md:px-16 lg:px-40 py-30 md:pt-50">
@@ -122,7 +169,7 @@ const SeatLayout = () => {
         </div>
 
         <button
-          // onClick={bookTickets}
+          onClick={bookTickets}
           className="flex items-center gap-1 mt-20 px-10 py-3 text-sm bg-primary hover:bg-primary-dull transition rounded-full font-medium cursor-pointer active:scale-95"
         >
           Proceed to Checkout

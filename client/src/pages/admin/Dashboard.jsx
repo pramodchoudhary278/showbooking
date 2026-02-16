@@ -11,12 +11,12 @@ import Loading from "../../components/Loading";
 import Title from "../../components/admin/Title";
 import BlurCircle from "../../components/BlurCircle";
 import { dateFormat } from "../../lib/dateFormat";
-// import { useAppContext } from "../../context/AppContext";
+import { useAppContext } from "../../context/AppContext";
 import toast from "react-hot-toast";
 import { dummyDashboardData } from "../../assets/assets";
 
 const Dashboard = () => {
-  // const { axios, getToken, user, image_base_url } = useAppContext();
+  const { axios, getToken, user,image_base_url } = useAppContext();
 
   const currency = import.meta.env.VITE_CURRENCY;
 
@@ -53,13 +53,30 @@ const Dashboard = () => {
   ];
   
   const fetchDashboardData = async () => {
-      setDashboardData(dummyDashboardData)
-      setLoading(false);
+      // setDashboardData(dummyDashboardData)
+      // setLoading(false);
+      try {
+      const { data } = await axios.get("/api/admin/dashboard", {
+        headers: { Authorization: `Bearer ${await getToken()}` },
+      });
+
+      if (data.success) {
+        setDashboardData(data.dashboardData);
+        setLoading(false);
+      } else {
+        toast.error(data.message);
+      }
+    } catch (error) {
+      toast.error("Error fetching dashboard data:", error);
+    }
   };
 
   useEffect(() => {
-    fetchDashboardData();
-  }, []);
+    if(user){
+      fetchDashboardData();
+    }
+      
+  }, [user]);
 
   return !loading ? (
     <>
@@ -86,7 +103,7 @@ const Dashboard = () => {
       <div className="relative flex flex-wrap gap-6 mt-4 max-w-5xl">
         <BlurCircle top="100px" left="-10%" />
         {dashboardData.activeShows.map((show) => ( 
-          <div key={show._id}className="w-55 rounded-lg overflow-hidden h-full pb-3 bg-primary/10 border border-primary/20 hover:-translate-y-1 transition duration-300"><img src={show.movie.poster_path}
+          <div key={show._id}className="w-55 rounded-lg overflow-hidden h-full pb-3 bg-primary/10 border border-primary/20 hover:-translate-y-1 transition duration-300"><img src={image_base_url + show.movie.poster_path}
               alt="poster"
               className="h-60 w-full object-cover"
           />
