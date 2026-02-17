@@ -63,7 +63,7 @@ export const createBooking = async (req, res) => {
     const line_items = [
       {
         price_data: {
-          currency: "usd",
+          currency: "jpy",
           product_data: {
             name: showData.movie.title,
           },
@@ -78,12 +78,15 @@ export const createBooking = async (req, res) => {
       cancel_url: `${origin}/my-bookings`,
       line_items: line_items,
       mode: "payment",
-      metadata: {
-        bookingId: booking._id.toString()
-      },
 
-      expires_at: Math.floor(Date.now() / 1000) + 30 * 60, // Expires in 30 minutes
+      // ✅ THIS IS REQUIRED
+      metadata: {
+        bookingId: booking._id.toString(),
+      },
+        
+      expires_at: Math.floor(Date.now() / 1000) + 30 * 60,
     });
+
 
     booking.paymentLink = session.url;
     await booking.save();

@@ -39,7 +39,7 @@ export const stripeWebhooks = async (request, response) => {
         //   name: "app/show.booked",
         //   data: { bookingId },
         // });
-
+        console.log(`Payment succeeded for booking ID: ${bookingId}`);
         break;
       }
 
@@ -48,8 +48,8 @@ export const stripeWebhooks = async (request, response) => {
     }
 
     response.json({ received: true });
-  } catch (err) {
-    console.error("Webhook processing error:", err);
+  } catch (error) {
+    console.error("Webhook processing error:", error);
     response.status(500).send("Internal Server Error");
   }
 };
