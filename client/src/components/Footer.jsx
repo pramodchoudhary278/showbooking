@@ -6,10 +6,8 @@ const Footer = () => {
       <div className="flex flex-col md:flex-row justify-between w-full gap-10 border-b border-gray-500 pb-14">
         <div className="md:max-w-96">
           <img className="w-36 h-auto" src={assets.cinetixlogo} alt="logo" />
-          <p className="mt-6 text-sm">
-            Lorem Ipsum has been the industry's standard dummy text ever since
-            the 1500s, when an unknown printer took a galley of type and
-            scrambled it to make a type specimen book.
+          <p className="mt-6 text-lg">
+            <i>Your gateway to seamless movie booking and unforgettable cinema experiences. <br /> Book smarter. Watch better. Experience cinema with CINETIX. </i>
           </p>
           <div className="flex items-center gap-2 mt-4">
             <img
@@ -48,7 +46,7 @@ const Footer = () => {
         </div>
       </div>
       <p className="pt-4 text-center text-sm pb-5">
-        Copyright {new Date().getFullYear()} © CineTix. All Right Reserved.
+        Copyright {new Date().getFullYear()} © CINETIX. All Right Reserved.
       </p>
     </footer>
   );

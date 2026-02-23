@@ -1,6 +1,7 @@
 import cinetixlogo from './cinetixlogo.png'
 import logo from './logo.svg'
 import marvelLogo from './marvelLogo.svg'
+import bookingmovie from './bookingmovie.jpg'
 import googlePlay from './googlePlay.svg'
 import appStore from './appStore.svg'
 import screenImage from './screenImage.svg'
@@ -9,7 +10,8 @@ import profile from './profile.png'
 export const assets = {
     logo,
     cinetixlogo,
-    marvelLogo,
+    // marvelLogo,
+    bookingmovie,
     googlePlay,
     appStore,
     screenImage,
@@ -18,12 +20,21 @@ export const assets = {
 
 export const dummyTrailers = [
     {
-        image: "https://img.youtube.com/vi/WpW36ldAqnM/maxresdefault.jpg",
-        videoUrl: 'https://www.youtube.com/watch?v=WpW36ldAqnM'
+        image: "https://img.youtube.com/vi/kH1XlwHQv9o/maxresdefault.jpg",
+        videoUrl: 'https://www.youtube.com/watch?v=kH1XlwHQv9o'
     },
+       {
+        image: "https://img.youtube.com/vi/n83s6NO1NE0/maxresdefault.jpg",
+        videoUrl: 'https://www.youtube.com/watch?v=n83s6NO1NE0'
+    },
+
     {
         image: "https://img.youtube.com/vi/-sAOWhvheK8/maxresdefault.jpg",
         videoUrl: 'https://www.youtube.com/watch?v=-sAOWhvheK8'
+    },
+    {
+        image: "https://img.youtube.com/vi/WpW36ldAqnM/maxresdefault.jpg",
+        videoUrl: 'https://www.youtube.com/watch?v=WpW36ldAqnM'
     },
     {
         image: "https://img.youtube.com/vi/1pHDWnXmK7Y/maxresdefault.jpg",
@@ -32,7 +43,8 @@ export const dummyTrailers = [
     {
         image: "https://img.youtube.com/vi/umiKiW4En9g/maxresdefault.jpg",
         videoUrl: 'https://www.youtube.com/watch?v=umiKiW4En9g'
-    },
+    }
+    
 ]
 
 const dummyCastsData = [
