@@ -64,7 +64,7 @@ export const createBooking = async (req, res) => {
     const line_items = [
       {
         price_data: {
-          currency: "jpy",
+          currency: "INR",
           product_data: {
             name: showData.movie.title,
           },
